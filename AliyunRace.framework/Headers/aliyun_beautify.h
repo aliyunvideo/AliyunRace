@@ -1,6 +1,6 @@
 #ifndef ALIYUN_RACE_BEAUTIFY_H
 #define ALIYUN_RACE_BEAUTIFY_H
-#include <cstdint>
+#include <stdint.h>
 #include "aliyun_common.h"
 
 #ifdef __ANDROID__
@@ -16,7 +16,7 @@ extern "C" {
 /**
  * 美型形状类型
  */
-enum ALRFaceShape
+typedef enum ALRFaceShape
 {
     ALR_FACE_TYPE_CUT_CHEEK       = 0,//颧骨        [0,1]
     ALR_FACE_TYPE_CUT_FACE        = 1,//削脸        [0,1]
@@ -41,7 +41,7 @@ enum ALRFaceShape
     ALR_FACE_TYPE_MOUTH_HIGH      = 20,//唇高     [-1,1]
     ALR_FACE_TYPE_PHILTRUM        = 21, //人中
     ALR_FACE_TYPE_MAX             = 22
-};
+} ALRFaceShape;
 
 /**
  *  获取当前美颜美型版本号
@@ -59,17 +59,14 @@ RACE_EXTERN void aliyun_beautify_getVersion(int &major, int &minor);
  * @param lid 日志上报标识符
  * @return 成功返回 ALR_OK，否则返回 < 0
  */
-RACE_EXTERN int aliyun_beautify_create(race_t *handle, JNIEnv *env, const char *resDir, int64_t rid = -1, int64_t lid = -1);
+RACE_EXTERN int aliyun_beautify_create(race_t *handle, JNIEnv *env, const char *resDir, int64_t rid, int64_t lid);
 #else
 /**
  * 创建美颜美型实例
  * @param handle 美颜美型句柄指针
- * @param resDir 资源文件目录绝对路径
- * @param rid 数据上报标识符
- * @param lid 日志上报标识符
  * @return 成功返回 ALR_OK，否则返回 < 0
  */
-RACE_EXTERN int aliyun_beautify_create(race_t *handle, const char *resDir, int64_t rid = -1, int64_t lid = -1);
+RACE_EXTERN int aliyun_beautify_create(race_t *handle);
 #endif
 /**
  * 美颜美型调试开关
@@ -131,11 +128,11 @@ RACE_EXTERN int aliyun_beautify_processDualInputToTexture(race_t handle,
                                                           uint32_t textureIn,
                                                           uint8_t *buffer,
                                                           uint32_t bufferSize,
-                                                          ImageFormat format,
+                                                          aliyun_image_format_t format,
                                                           uint32_t width,
                                                           uint32_t height,
                                                           uint32_t bytesPerRow,
-                                                          Rotation rotation,
+                                                          aliyun_rotation_t rotation,
                                                           uint8_t flags);
 /**
  * 双输入美颜美型渲染
@@ -156,11 +153,11 @@ RACE_EXTERN int aliyun_beautify_processDualInputToBuffer(race_t handle,
                                                          uint32_t textureIn,
                                                          uint8_t *buffer,
                                                          uint32_t bufferSize,
-                                                         ImageFormat format,
+                                                         aliyun_image_format_t format,
                                                          uint32_t width,
                                                          uint32_t height,
                                                          uint32_t bytesPerRow,
-                                                         Rotation rotation,
+                                                         aliyun_rotation_t rotation,
                                                          uint8_t flags,
                                                          uint8_t *bufferOut);
 /**
@@ -177,7 +174,7 @@ RACE_EXTERN int aliyun_beautify_processTextureToTexture(race_t handle,
                                                         uint32_t textureIn,
                                                         uint32_t width,
                                                         uint32_t height,
-                                                        Rotation rotation,
+                                                        aliyun_rotation_t rotation,
                                                         uint8_t flags);
 /**
  * 美颜美型纹理输入渲染
@@ -194,7 +191,7 @@ RACE_EXTERN int aliyun_beautify_processTextureToBuffer(race_t handle,
                                                        uint32_t textureIn,
                                                        uint32_t width,
                                                        uint32_t height,
-                                                       Rotation rotation,
+                                                       aliyun_rotation_t rotation,
                                                        uint8_t flags,
                                                        uint8_t *bufferOut);
 /**
@@ -215,13 +212,13 @@ RACE_EXTERN int aliyun_beautify_processTextureToBuffer(race_t handle,
 RACE_EXTERN int aliyun_beautify_processBufferToTexture(race_t handle,
                                                        uint8_t *buffer,
                                                        uint32_t bufferSize,
-                                                       ImageFormat format,
+                                                       aliyun_image_format_t format,
                                                        uint32_t width,
                                                        uint32_t height,
                                                        uint32_t bytesPerRow,
-                                                       Rotation rotation,
-                                                       ColorRange range,
-                                                       ColorStandard standard,
+                                                       aliyun_rotation_t rotation,
+                                                       aliyun_color_range_t range,
+                                                       aliyun_color_standard_t standard,
                                                        uint8_t flags);
 /**
  * 单输入美颜美型渲染
@@ -242,13 +239,13 @@ RACE_EXTERN int aliyun_beautify_processBufferToTexture(race_t handle,
 RACE_EXTERN int aliyun_beautify_processBufferToBuffer(race_t handle,
                                                       uint8_t *buffer,
                                                       uint32_t bufferSize,
-                                                      ImageFormat format,
+                                                      aliyun_image_format_t format,
                                                       uint32_t width,
                                                       uint32_t height,
                                                       uint32_t bytesPerRow,
-                                                      Rotation rotation,
-                                                      ColorRange range,
-                                                      ColorStandard standard,
+                                                      aliyun_rotation_t rotation,
+                                                      aliyun_color_range_t range,
+                                                      aliyun_color_standard_t standard,
                                                       uint8_t flags,
                                                       uint8_t *bufferOut);
 /**
@@ -276,17 +273,17 @@ RACE_EXTERN int aliyun_beautify_process(race_t handle,
                                         uint32_t textureIn,
                                         uint8_t *buffer,
                                         uint32_t bufferSize,
-                                        ImageFormat format,
+                                        aliyun_image_format_t format,
                                         uint32_t width,
                                         uint32_t height,
                                         uint32_t bytesPerRow,
-                                        Rotation rotation,
-                                        ColorRange range,
-                                        ColorStandard standard,
+                                        aliyun_rotation_t rotation,
+                                        aliyun_color_range_t range,
+                                        aliyun_color_standard_t standard,
                                         uint8_t flags,
                                         uint32_t textureOut,
                                         uint8_t *bufferOut,
-                                        ImageFormat formatOut,
+                                        aliyun_image_format_t formatOut,
                                         uint32_t widthOut,
                                         uint32_t heightOut);
 #ifdef __APPLE__

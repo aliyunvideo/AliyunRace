@@ -32,43 +32,43 @@ typedef void* race_t;
 /**
  * 图像色彩格式类型
  */
-enum ImageFormat
+typedef enum aliyun_image_format_t
 {
     ALR_IMAGE_FORMAT_RGB   = 2,
     ALR_IMAGE_FORMAT_BGRA  = 4,
     ALR_IMAGE_FORMAT_RGBA  = 5,
     ALR_IMAGE_FORMAT_NV21  = 7,
     ALR_IMAGE_FORMAT_NV12  = 8
-};
+} aliyun_image_format_t;
 
 /**
  * 图像颜色范围
  */
-enum ColorRange
+typedef enum
 {
     ALR_COLOR_RANGE_FULL,
     ALR_COLOR_RANGE_LIMITED
-};
+} aliyun_color_range_t;
 
 /**
  * 图像色彩标准
  */
-enum ColorStandard
+typedef enum
 {
     ALR_COLOR_STANDARD_BT709 = 1,
     ALR_COLOR_STANDARD_BT601 = 2,
-};
+} aliyun_color_standard_t;
 
 /**
  * 旋转角度（顺时针方向）
  */
-enum Rotation
+typedef enum
 {
     ALR_ROTATE_0_CW    = 0,
     ALR_ROTATE_90_CW   = 90,
     ALR_ROTATE_180_CW  = 180,
     ALR_ROTATE_270_CW  = 270,
-};
+} aliyun_rotation_t;
 
 /**
  * 日志等级
@@ -103,7 +103,7 @@ enum
  * @param format 图像格式
  * @return 成功返回纹理 id，失败 <0
  */
-RACE_EXTERN int aliyun_createTexture(int width, int height, ImageFormat format = ALR_IMAGE_FORMAT_RGBA);
+RACE_EXTERN int aliyun_createTexture(int width, int height, aliyun_image_format_t format);
 /**
  * 销毁纹理
  * @param texture 纹理 id
