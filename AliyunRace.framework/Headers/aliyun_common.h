@@ -1,5 +1,26 @@
-#ifndef RACEBUSINESS_ALR_COMMON_H
-#define RACEBUSINESS_ALR_COMMON_H
+/*
+   File:  aliyun_common.h
+   
+   Framework:  AliyunRace
+
+   Copyright (C) Alibaba Cloud Computing, 2020 All rights reserved.
+*/
+#ifndef ALIYUN_COMMON_H
+#define ALIYUN_COMMON_H
+
+/*!
+    @header
+    @abstract    <h1>阿里云RACE基本数据类型</h1>
+    @copyright   Alibaba Cloud Computing
+    @encoding    utf-8
+    @version     1.2.0
+*/
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef RACE_EXTERN
 #if defined(_MSC_VER_)
@@ -13,54 +34,63 @@
 #endif
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#define ALR_FLAG_TEXTURE_OES_EXTERNAL    0x01   // OES 纹理
-#define ALR_FLAG_IMAGE_FLIP_X            0x02   // 水平方向翻转
-#define ALR_FLAG_IMAGE_FLIP_Y            0x04   // 垂直方向翻转
-#define ALR_FLAG_OUTPUT_ROTATE_0         0x08   // 输出图像正置处理
-#define ALR_FLAG_OUTPUT_FLIP_X           0x10   // 输出图像水平方向翻转处理
-#define ALR_FLAG_OUTPUT_FLIP_Y           0x20   // 输出图像垂直方向翻转处理
-
-/**
- * 美颜美型句柄
+/*!
+ * @abstract race 句柄
  */
 typedef void* race_t;
 
-/**
- * 图像色彩格式类型
+/*!
+ * @enum aliyun_image_format_t
+ * @abstract   图像像素格式类型
+ * @constant   ALR_IMAGE_FORMAT_BGRA            bgra
+ * @constant   ALR_IMAGE_FORMAT_RGBA            rgba
+ * @constant   ALR_IMAGE_FORMAT_I420               yuv i420
+ * @constant   ALR_IMAGE_FORMAT_NV21             yuv nv21
+ * @constant   ALR_IMAGE_FORMAT_NV12             yuv nv12
  */
-typedef enum aliyun_image_format_t
+typedef enum
 {
-    ALR_IMAGE_FORMAT_RGB   = 2,
     ALR_IMAGE_FORMAT_BGRA  = 4,
     ALR_IMAGE_FORMAT_RGBA  = 5,
+    ALR_IMAGE_FORMAT_I420  = 6,
     ALR_IMAGE_FORMAT_NV21  = 7,
     ALR_IMAGE_FORMAT_NV12  = 8
+    
 } aliyun_image_format_t;
 
-/**
- * 图像颜色范围
+/*!
+ * @enum aliyun_color_range_t
+ * @abstract 图像颜色范围
+ * @constant ALR_COLOR_RANGE_FULL
+ * @constant ALR_COLOR_RANGE_LIMITED
  */
 typedef enum
 {
     ALR_COLOR_RANGE_FULL,
     ALR_COLOR_RANGE_LIMITED
+    
 } aliyun_color_range_t;
 
-/**
- * 图像色彩标准
+/*!
+ * @enum aliyun_color_standard_t
+ * @abstract 图像色彩标准
+ * @constant ALR_COLOR_STANDARD_BT709
+ * @constant ALR_COLOR_STANDARD_BT601
  */
 typedef enum
 {
     ALR_COLOR_STANDARD_BT709 = 1,
     ALR_COLOR_STANDARD_BT601 = 2,
+    
 } aliyun_color_standard_t;
 
-/**
- * 旋转角度（顺时针方向）
+/*!
+ * @enum aliyun_rotation_t
+ * @abstract 旋转角度（顺时针）
+ * @constant ALR_ROTATE_0_CW              0 clockwise
+ * @constant ALR_ROTATE_90_CW            90 clockwise
+ * @constant ALR_ROTATE_180_CW          180 clockwise
+ * @constant ALR_ROTATE_270_CW           270 clockwise
  */
 typedef enum
 {
@@ -68,12 +98,20 @@ typedef enum
     ALR_ROTATE_90_CW   = 90,
     ALR_ROTATE_180_CW  = 180,
     ALR_ROTATE_270_CW  = 270,
+    
 } aliyun_rotation_t;
 
-/**
- * 日志等级
+/*!
+ * @enum aliyun_log_level_t
+ * @abstract 日志级别
+ * @constant ALR_LOG_LEVEL_VERBOSE              verbose
+ * @constant ALR_LOG_LEVEL_DEBUG                   debug
+ * @constant ALR_LOG_LEVEL_INFO                       info
+ * @constant ALR_LOG_LEVEL_WARN                     warn
+ * @constant ALR_LOG_LEVEL_ERROR                   error
+ * @constant ALR_LOG_LEVEL_FATAL                      fatal
  */
-enum
+typedef enum
 {
     ALR_LOG_LEVEL_VERBOSE = 2,
     ALR_LOG_LEVEL_DEBUG,
@@ -81,12 +119,20 @@ enum
     ALR_LOG_LEVEL_WARN,
     ALR_LOG_LEVEL_ERROR,
     ALR_LOG_LEVEL_FATAL,
-};
+    
+} aliyun_log_level_t;
 
-/**
- * 返回值
+/*!
+ * @enum aliyun_return_value_t
+ * @abstract Returns values
+ * @constant ALR_OK                                     Returns  if the call succeeds
+ * @constant ALR_FAIL                                   Returns  if the call failed
+ * @constant ALR_INVALID_HANDLE            Returns  if the handle equals NULL
+ * @constant ALR_INVALID_VALUE               Returns  if the values not supported
+ * @constant ALR_INVALID_LICENSE           Returns  if the license verification failed
+ * @constant ALR_INVALID_FORMAT            Returns  if the image format not supported
  */
-enum
+typedef enum
 {
     ALR_OK                   = 0,
     ALR_FAIL                 = -1,
@@ -94,24 +140,14 @@ enum
     ALR_INVALID_VALUE        = -3,
     ALR_INVALID_LICENSE      = -4,
     ALR_INVALID_FORMAT       = -5,
-};
+    
+} aliyun_return_value_t;
 
-/**
- * 创建纹理，支持 RGB/RGBA/BGRA
- * @param width 纹理宽度
- * @param height 纹理高度
- * @param format 图像格式
- * @return 成功返回纹理 id，失败 <0
- */
-RACE_EXTERN int aliyun_createTexture(int width, int height, aliyun_image_format_t format);
-/**
- * 销毁纹理
- * @param texture 纹理 id
- */
-RACE_EXTERN void aliyun_destroyTexture(int texture);
-/**
- * 设置输出日志等级
- * @param level 日志等级
+
+/*!
+ * @abstract 设置日志级别，默认级别ALR_LOG_LEVEL_WARN.
+ * @param level 日志级别
+ * @namespace AliyunRace
  */
 RACE_EXTERN void aliyun_setLogLevel(int level);
 
@@ -119,4 +155,4 @@ RACE_EXTERN void aliyun_setLogLevel(int level);
 }
 #endif
 
-#endif //RACEBUSINESS_ALR_COMMON_H
+#endif //ALIYUN_COMMON_H
